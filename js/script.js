@@ -4,11 +4,14 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 document.addEventListener('DOMContentLoaded',()=>{
 
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
+   /*
+   For assistance:
+      Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
+      Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
+   */
+
+   /*Create the `showPage` function. This function will create and insert/append the elements needed to display a "page" of nine students
+   */
    function showPage(list, page) {
       // create two variables which will represent the index for the first and last student on the page
       const startIndex = (page*8) - 8
@@ -26,7 +29,7 @@ For assistance:
          if(i >= startIndex && i <= endIndex){
          
             // inside the conditional:
-            // create the elements needed to display the student information
+            // create the elements needed to display the student information using templete literals
             // insert the above elements
             const html = `
                <li class="student-item cf">
@@ -46,21 +49,43 @@ For assistance:
          }
       }
    }
-
-
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
-
-
-
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 
+   function addPagination(list){
+      //calculate page #
+      const pageNum = Math.ceil(list.length/ 9)
+      let linkList_ul = document.querySelector('.link-list')
+      linkList_ul.innerHTML = ''
+      
+      //based on page # add that many number of buttons and add them to the DOM
+      for(let i=0; i<pageNum; i++){
+         const buttonHTML = `
+            <li>
+               <button type="button">${i+1}</button>
+            </li>
+         `
+         linkList_ul.insertAdjacentHTML('beforeend', buttonHTML)
+      }
 
+      //grab the first li element, access the first child of li aka the btn & give it the class name "active"
+      const firstBtn = linkList_ul.firstElementChild.firstElementChild
+      firstBtn.className = 'active'
+      
+      //target the page btns, grab the btn with the 'active' class, remove its class and pass it to the btn most recently clicked
+      linkList_ul.addEventListener('click',(e)=>{
+         if(e.target.tagName === "BUTTON"){
+            document.querySelector('.active').classList.remove('active')
+            e.target.classList.add('active')
+            //show the students based on the page clicked 
+            showPage(list,e.target.textContent)
+         }
+      })
+
+   }
 // Call functions
 showPage(data,1)
+addPagination(data)
 })
