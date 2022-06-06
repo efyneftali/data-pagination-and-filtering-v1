@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded',()=>{
    */
    function showPage(list, page) {
       // create two variables which will represent the index for the first and last student on the page
-      const startIndex = (page*8) - 8
-      const endIndex = page*8
+      const startIndex = (page*9) - 9
+      const endIndex = page*9
 
       // select the element with a class of `student-list` and assign it to a variable
       const studentList = document.querySelector('.student-list')
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       // loop over the length of the `list` parameter
       for(let i=0; i<list.length; i++){
       // inside the loop create a conditional to display the proper students
-         if(i >= startIndex && i <= endIndex){
+         if(i >= startIndex && i < endIndex){
          
             // inside the conditional:
             // create the elements needed to display the student information using templete literals
@@ -80,6 +80,7 @@ This function will create and insert/append the elements needed for the paginati
             document.querySelector('.active').classList.remove('active')
             e.target.classList.add('active')
             //show the students based on the page clicked 
+            //console.log(e.target.textContent)
             showPage(list,e.target.textContent)
          }
       })
